@@ -4,7 +4,7 @@ namespace Desafio.Application.Service.Processamento.Interface
 {
     public interface IProcessaContexto
     {
-        ICollection<Pessoa> ProcessaInformacao(ICollection<Pessoa> familias);
+        ICollection<Familia> ProcessaInformacao(ICollection<Familia> familias);
         IProcessaContexto DefineEstrategia(IProcessaEstrategia processaEstrategia);
     }
 }

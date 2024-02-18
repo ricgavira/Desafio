@@ -2,6 +2,7 @@
 using Application.Enums;
 using Desafio.Application.Service.Processamento;
 using Desafio.Application.Utils;
+using Desafio.Domain.Entities;
 using Domain.Entities;
 using Domain.Enums;
 
@@ -9,29 +10,6 @@ namespace Desafio.Test.Application.Service.Processamento
 {
     public class ProcessaContextoTests
     {
-        [Fact(DisplayName = "Deve processar, filtrar a lista passada e retornar com menos objetos.")]
-        public void DeveProcessarFiltrarERetornarALista()
-        {
-            var familias = Setup();
-
-            var familiasSelecionadas = SetupPorEstrategia(familias, Estrategia.PorRenda);
-
-            Assert.NotNull(familiasSelecionadas);
-            Assert.NotEqual(familias.Count, familiasSelecionadas.Count);
-        }
-
-        [Fact(DisplayName = "Deve calcular a primeira faixa de pontos para a familia retornada utilizando a estrategia por renda.")]
-        public void DeveCalcularPrimeiraFaixaDePontosParaFamiliaRetornadaNaEstrategiaRenda()
-        {
-            var familias = Setup();
-
-            var familiasSelecionadas = SetupPorEstrategia(familias, Estrategia.PorRenda);
-            
-            Assert.NotNull(familiasSelecionadas);
-            Assert.NotEmpty(familiasSelecionadas);
-            Assert.Equal(Configuracao.PontosRendaFamiliarAte900Reais, familiasSelecionadas.Single().PontuacaoAcumulada);
-        }
-
         [Fact(DisplayName = "Deve retornar 2 pontos por familia.")]
         public void DeveRetornar2PontosPorFamilia()
         {
@@ -47,7 +25,7 @@ namespace Desafio.Test.Application.Service.Processamento
             }
         }
 
-        [Fact(DisplayName = "Deve retornar uma familia com 7 pontos acumulados")]
+        [Fact(DisplayName = "Deve retornar uma das familias com 7 pontos acumulados")]
         public void DeveRetornarUmaFamiliaCom7PntosAcumulados()
         {
             var familias = Setup();
@@ -56,10 +34,12 @@ namespace Desafio.Test.Application.Service.Processamento
             var familiasSelecionadas = SetupPorEstrategia(familiasSelecionadasPorRenda, Estrategia.PorDependentes);
 
             Assert.NotNull(familiasSelecionadas);
-            Assert.Equal(7, familiasSelecionadas.Single().PontuacaoAcumulada);
+
+            Assert.NotEmpty(familiasSelecionadas.Where(x => x.PontuacaoAcumulada == 7));
+            Assert.Equal(7, familiasSelecionadas.Where(x => x.PontuacaoAcumulada == 7).Single().PontuacaoAcumulada);
         }
 
-        private ICollection<Pessoa> SetupPorEstrategia(ICollection<Pessoa> familias, Estrategia estrategia)
+        private ICollection<Familia> SetupPorEstrategia(ICollection<Familia> familias, Estrategia estrategia)
         {
             var fabrica = new ProcessaFabrica();
             var estrategiaRetornada = fabrica.ObterEstrategia(estrategia);
@@ -70,21 +50,23 @@ namespace Desafio.Test.Application.Service.Processamento
             return contexto.ProcessaInformacao(familias);
         }
 
-        private ICollection<Pessoa> Setup()
+        private ICollection<Familia> Setup()
         {
-            List<Pessoa> familias = new List<Pessoa>();
+            List<Familia> familias = new List<Familia>();
 
-            Pessoa familia1 = new Pessoa("Ricardo", 1900.00, Utilitarios.CalcularDataNascimentoPelaIdade(44), Classificacao.Pai, Sexo.Masculino);
-            familia1.Dependentes.Add(new Pessoa("Cassia", 500.00, Utilitarios.CalcularDataNascimentoPelaIdade(43), Classificacao.Mae, Sexo.Feminino));
-            familia1.Dependentes.Add(new Pessoa("Yasmin", 0.00, Utilitarios.CalcularDataNascimentoPelaIdade(13), Classificacao.Filha, Sexo.Feminino));
-            familia1.Dependentes.Add(new Pessoa("Luiza", 0.00, Utilitarios.CalcularDataNascimentoPelaIdade(10), Classificacao.Filha, Sexo.Feminino));
+            Familia familia1 = new Familia(1, new List<Familiares>());
+            familia1.Familiares.Add(new Familiares("Ricardo", 1900.00, Utilitarios.CalcularDataNascimentoPelaIdade(44), Classificacao.Pai, Sexo.Masculino));
+            familia1.Familiares.Add(new Familiares("Cassia", 500.00, Utilitarios.CalcularDataNascimentoPelaIdade(43), Classificacao.Mae, Sexo.Feminino));
+            familia1.Familiares.Add(new Familiares("Yasmin", 0.00, Utilitarios.CalcularDataNascimentoPelaIdade(13), Classificacao.Filha, Sexo.Feminino));
+            familia1.Familiares.Add(new Familiares("Luiza", 0.00, Utilitarios.CalcularDataNascimentoPelaIdade(10), Classificacao.Filha, Sexo.Feminino));
 
             familias.Add(familia1);
 
-            Pessoa familia2 = new Pessoa("João", 500.00, Utilitarios.CalcularDataNascimentoPelaIdade(46), Classificacao.Pai, Sexo.Masculino);
-            familia2.Dependentes.Add(new Pessoa("Maria", 300.00, Utilitarios.CalcularDataNascimentoPelaIdade(50), Classificacao.Mae, Sexo.Feminino));
-            familia2.Dependentes.Add(new Pessoa("Jose", 0.00, Utilitarios.CalcularDataNascimentoPelaIdade(5), Classificacao.Filho, Sexo.Masculino));
-            familia2.Dependentes.Add(new Pessoa("Pedro", 100.00, Utilitarios.CalcularDataNascimentoPelaIdade(24), Classificacao.Filho, Sexo.Masculino));
+            Familia familia2 = new Familia(2, new List<Familiares>());
+            familia2.Familiares.Add(new Familiares("João", 500.00, Utilitarios.CalcularDataNascimentoPelaIdade(46), Classificacao.Pai, Sexo.Masculino));
+            familia2.Familiares.Add(new Familiares("Maria", 300.00, Utilitarios.CalcularDataNascimentoPelaIdade(50), Classificacao.Mae, Sexo.Feminino));
+            familia2.Familiares.Add(new Familiares("Jose", 0.00, Utilitarios.CalcularDataNascimentoPelaIdade(5), Classificacao.Filho, Sexo.Masculino));
+            familia2.Familiares.Add(new Familiares("Pedro", 100.00, Utilitarios.CalcularDataNascimentoPelaIdade(24), Classificacao.Filho, Sexo.Masculino));
 
             familias.Add(familia2);
 

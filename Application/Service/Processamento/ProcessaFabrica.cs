@@ -15,7 +15,7 @@ namespace Desafio.Application.Service.Processamento
                     processaEstrategia = new ProcessaRenda();
                     break;
                 case Estrategia.PorDependentes:
-                    processaEstrategia = new ProcessaDependentes();
+                    processaEstrategia = new ProcessaFamiliares();
                     break;
                 default:
                     throw new ArgumentException("Estratégia indefinida!");

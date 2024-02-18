@@ -4,7 +4,7 @@ namespace Desafio.Application.Service.Processamento.Interface
 {
     public interface IProcessaEstrategia
     {
-        ICollection<Pessoa> ProcessaInformacao(ICollection<Pessoa> familias);
-        void DefinePontuacao(ICollection<Pessoa> familias);
+        ICollection<Familia> ProcessaInformacao(ICollection<Familia> familias);
+        void DefinePontuacao(ICollection<Familia> familias);
     }
 }

@@ -1,9 +1,9 @@
 ﻿using Domain.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Entities
+namespace Desafio.Domain.Entities
 {
-    public class Pessoa
+    public class Familiares
     {
         public int Id { get; private set; }
         public string Nome { get; private set; }
@@ -12,15 +12,10 @@ namespace Domain.Entities
         [NotMapped]
         public int Idade { get { return DateTime.Today.Year - DataNascimento.Year; } }
         public DateTime DataCadastro { get; private set; }
-        [NotMapped]
-        public double RendaTotalFamiliar { get; private set; }
-        [NotMapped]
-        public int PontuacaoAcumulada { get; private set; }
         public Classificacao Classificacao { get; private set; }
         public Sexo Sexo { get; private set; }
-        public ICollection<Pessoa> Dependentes { get; private set; } = new List<Pessoa>();
 
-        public Pessoa(string nome, double renda, DateTime dataNascimento, Classificacao classificacao, Sexo sexo)
+        public Familiares(string nome, double renda, DateTime dataNascimento, Classificacao classificacao, Sexo sexo)
         {
             Id = 0;
             Nome = nome;
@@ -29,21 +24,6 @@ namespace Domain.Entities
             Classificacao = classificacao;
             Sexo = sexo;
             DataCadastro = DateTime.Now;
-        }
-
-        public void AlteraDependentes(ICollection<Pessoa> dependentes)
-        {
-            this.Dependentes = dependentes;
-        }
-
-        public void AlteraRendaTotalFamiliar(double rendaTotal)
-        {
-            this.RendaTotalFamiliar = rendaTotal;
-        }
-
-        public void AlteraPontuacaoAcumulada(int pontos)
-        {
-            this.PontuacaoAcumulada = pontos;
         }
 
         public (bool, string) Validate()

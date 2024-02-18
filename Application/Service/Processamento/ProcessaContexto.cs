@@ -18,7 +18,7 @@ namespace Desafio.Application.Service.Processamento
             return this;
         }
 
-        public ICollection<Pessoa> ProcessaInformacao(ICollection<Pessoa> pessoas)
+        public ICollection<Familia> ProcessaInformacao(ICollection<Familia> pessoas)
         {
             var result = _processaEstrategia.ProcessaInformacao(pessoas);
             return result;

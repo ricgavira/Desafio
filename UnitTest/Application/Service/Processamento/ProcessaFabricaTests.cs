@@ -9,7 +9,7 @@ namespace Desafio.Test.Application.Service.Processamento
 
         [Theory(DisplayName = "Deve instanciar cada classe especificada no Theory.")]
         [InlineData(Estrategia.PorRenda, typeof(ProcessaRenda))]
-        [InlineData(Estrategia.PorDependentes, typeof(ProcessaDependentes))]
+        [InlineData(Estrategia.PorDependentes, typeof(ProcessaFamiliares))]
         public void DeveInstanciarAsClassesEspecificadas(Estrategia estrategia, Type tipoEsperado)
         {
             var fabrica = new ProcessaFabrica();

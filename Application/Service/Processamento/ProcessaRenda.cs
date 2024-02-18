@@ -6,26 +6,24 @@ namespace Desafio.Application.Service.Processamento
 {
     public class ProcessaRenda : IProcessaEstrategia
     {
-        public ICollection<Pessoa> ProcessaInformacao(ICollection<Pessoa> familias)
+        public ICollection<Familia> ProcessaInformacao(ICollection<Familia> familias)
         {
             DefineRendaTotalFamiliar(familias);
             DefinePontuacao(familias);
-            return familias.Where(p => p.PontuacaoAcumulada > 0).ToList();
+            return familias.ToList();
         }
 
-        private void DefineRendaTotalFamiliar(ICollection<Pessoa> familias)
+        private void DefineRendaTotalFamiliar(ICollection<Familia> familias)
         {
             foreach (var familia in familias)
             {
-                double total = familia.Renda;
-
-                total += familia.Dependentes.Sum(d => d.Renda);
+                double total = familia.Familiares.Sum(d => d.Renda);
 
                 familia.AlteraRendaTotalFamiliar(total);
             }
         }
 
-        public void DefinePontuacao(ICollection<Pessoa> familias)
+        public void DefinePontuacao(ICollection<Familia> familias)
         {
             foreach (var familia in familias)
             {
