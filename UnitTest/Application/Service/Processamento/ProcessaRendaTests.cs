@@ -1,4 +1,6 @@
-﻿using Desafio.Application.Service.Processamento;
+﻿using Application;
+using Desafio.Application.Service.Processamento;
+using Desafio.Application.Utils;
 using Domain.Entities;
 using Domain.Enums;
 
@@ -23,34 +25,33 @@ namespace Desafio.Test.Application.Service.Processamento
         {
             List<Pessoa> familias = new List<Pessoa>();
 
-            Pessoa familia = new Pessoa("Cassia", 900.00, new DateTime(1980, 11, 11), Classificacao.Mae, Sexo.Feminino);
-            familia.AlteraDataAtual(new DateTime(2024, 02, 18));
-            familia.Dependentes.Add(new Pessoa("Yasmin", 0.00, new DateTime(2011, 05, 06), Classificacao.Filha, Sexo.Feminino));
-            familia.Dependentes.Add(new Pessoa("Luiza", 100.00, new DateTime(2000, 06, 16), Classificacao.Filha, Sexo.Feminino));
+            Pessoa familia = new Pessoa("Cassia", 900.00, Utilitarios.CalcularDataNascimentoPelaIdade(43), Classificacao.Mae, Sexo.Feminino);
+            familia.Dependentes.Add(new Pessoa("Yasmin", 0.00, Utilitarios.CalcularDataNascimentoPelaIdade(13), Classificacao.Filha, Sexo.Feminino));
+            familia.Dependentes.Add(new Pessoa("Luiza", 100.00, Utilitarios.CalcularDataNascimentoPelaIdade(24), Classificacao.Filha, Sexo.Feminino));
 
             familias.Add(familia);
 
             var porRenda = new ProcessaRenda();
             porRenda.DefinePontuacao(familias);
 
-            Assert.Equal(7, familias.Single().PontuacaoAcumulada);
+            Assert.Equal(Configuracao.PontosRendaFamiliarAte900Reais, familias.Single().PontuacaoAcumulada);
         }
 
         private ICollection<Pessoa> Setup()
         {
             List<Pessoa> familias = new List<Pessoa>();
 
-            Pessoa familia1 = new Pessoa("Ricardo", 1900.00, new DateTime(1980, 06, 19), Classificacao.Pai, Sexo.Masculino);
-            familia1.Dependentes.Add(new Pessoa("Cassia", 500.00, new DateTime(1980, 11, 11), Classificacao.Mae, Sexo.Feminino));
-            familia1.Dependentes.Add(new Pessoa("Yasmin", 0.00, new DateTime(2011, 05, 06), Classificacao.Filha, Sexo.Feminino));
-            familia1.Dependentes.Add(new Pessoa("Luiza", 0.00, new DateTime(2014, 06, 16), Classificacao.Filha, Sexo.Feminino));
+            Pessoa familia1 = new Pessoa("Ricardo", 1900.00, Utilitarios.CalcularDataNascimentoPelaIdade(44), Classificacao.Pai, Sexo.Masculino);
+            familia1.Dependentes.Add(new Pessoa("Cassia", 500.00, Utilitarios.CalcularDataNascimentoPelaIdade(43), Classificacao.Mae, Sexo.Feminino));
+            familia1.Dependentes.Add(new Pessoa("Yasmin", 0.00, Utilitarios.CalcularDataNascimentoPelaIdade(13), Classificacao.Filha, Sexo.Feminino));
+            familia1.Dependentes.Add(new Pessoa("Luiza", 0.00, Utilitarios.CalcularDataNascimentoPelaIdade(10), Classificacao.Filha, Sexo.Feminino));
 
             familias.Add(familia1);
 
-            Pessoa familia2 = new Pessoa("João", 500.00, new DateTime(1975, 09, 25), Classificacao.Pai, Sexo.Masculino);
-            familia2.Dependentes.Add(new Pessoa("Maria", 300.00, new DateTime(1972, 10, 19), Classificacao.Mae, Sexo.Feminino));
-            familia2.Dependentes.Add(new Pessoa("Jose", 0.00, new DateTime(2019, 08, 06), Classificacao.Filho, Sexo.Masculino));
-            familia2.Dependentes.Add(new Pessoa("Pedro", 100.00, new DateTime(2000, 08, 16), Classificacao.Filho, Sexo.Masculino));
+            Pessoa familia2 = new Pessoa("João", 500.00, Utilitarios.CalcularDataNascimentoPelaIdade(46), Classificacao.Pai, Sexo.Masculino);
+            familia2.Dependentes.Add(new Pessoa("Maria", 300.00, Utilitarios.CalcularDataNascimentoPelaIdade(50), Classificacao.Mae, Sexo.Feminino));
+            familia2.Dependentes.Add(new Pessoa("Jose", 0.00, Utilitarios.CalcularDataNascimentoPelaIdade(5), Classificacao.Filho, Sexo.Masculino));
+            familia2.Dependentes.Add(new Pessoa("Pedro", 100.00, Utilitarios.CalcularDataNascimentoPelaIdade(24), Classificacao.Filho, Sexo.Masculino));
 
             familias.Add(familia2);
 

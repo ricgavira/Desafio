@@ -10,9 +10,7 @@ namespace Domain.Entities
         public double Renda { get; private set; }
         public DateTime DataNascimento { get; private set; }
         [NotMapped]
-        public DateTime DataAtual { get; private set; } = DateTime.Now;
-        [NotMapped]
-        public int Idade { get { return DataAtual.Year - DataNascimento.Year; } }
+        public int Idade { get { return DateTime.Today.Year - DataNascimento.Year; } }
         public DateTime DataCadastro { get; private set; }
         [NotMapped]
         public double RendaTotalFamiliar { get; private set; }
@@ -46,11 +44,6 @@ namespace Domain.Entities
         public void AlteraPontuacaoAcumulada(int pontos)
         {
             this.PontuacaoAcumulada = pontos;
-        }
-
-        public void AlteraDataAtual(DateTime dataAtual)
-        {
-            this.DataAtual = dataAtual;
         }
 
         public (bool, string) Validate()
