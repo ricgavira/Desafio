@@ -23,7 +23,7 @@ namespace Desafio.Application.Service.Processamento
             }
         }
 
-        public void DefinePontuacao(ICollection<Familia> familias)
+        private void DefinePontuacao(ICollection<Familia> familias)
         {
             foreach (var familia in familias)
             {

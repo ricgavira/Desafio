@@ -21,8 +21,8 @@ namespace Desafio.Test.Application.Service.Processamento
             Assert.Equal(1, resultado.Count(x => x.PontuacaoAcumulada > 0));
         }
 
-        [Fact(DisplayName = "Deve retornar uma familia com 7 pontos")]
-        public void DeveRetornarUmaFamiliaComPontuacao7()
+        [Fact(DisplayName = "Deve retornar uma familia com 3 pontos")]
+        public void DeveRetornarUmaFamiliaComPontuacao3()
         {
             List<Familia> familias = new List<Familia>();
 
@@ -34,9 +34,9 @@ namespace Desafio.Test.Application.Service.Processamento
             familias.Add(familia);
 
             var porRenda = new ProcessaRenda();
-            porRenda.DefinePontuacao(familias);
+            porRenda.ProcessaInformacao(familias);
 
-            Assert.Equal(Configuracao.PontosRendaFamiliarAte900Reais, familias.Single().PontuacaoAcumulada);
+            Assert.Equal(Configuracao.PontosRendaFamiliarAte1500Reais, familias.Single().PontuacaoAcumulada);
         }
 
         private ICollection<Familia> Setup()
